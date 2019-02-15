@@ -20,6 +20,19 @@ import csv
 cities = []
 
 
+class City():
+    def __init__(self, city="", lat=0, lng=0, state_name="", county_name="", population=0, density=0, timezone="", zips=[]):
+        self.name = city
+        self.state_name = state_name
+        self.county_name = county_name
+        self.lat = float(lat)
+        self.lon = float(lng)
+        self.population = int(population)
+        self.density = int(density)
+        self.timezone = timezone
+        self.zips = zips
+
+
 def cityreader(cities=[]):
     # TODO Implement the functionality to read from the 'cities.csv' file
     # For each city record, create a new City instance and add it to the
@@ -28,7 +41,10 @@ def cityreader(cities=[]):
         csvreader = csv.reader(csvfile, delimiter=',', quotechar='|')
         next(csvreader)  # skip the first line
         for row in csvreader:
-            city, state_name, county_name, lat, lng, population, density, timezone, *zips = row
+            city, state_name, county_name, lat, lng, population, density, timezone, zips = row
+            # move lat and lng to after city to make test happy
+            cities.append(City(city, lat, lng, state_name,
+                               county_name, population, density, timezone, zips))
 
         return cities
 
@@ -36,8 +52,8 @@ def cityreader(cities=[]):
 cityreader(cities)
 
 # Print the list of cities (name, lat, lon), 1 record per line.
-for c in cities:
-    print(c)
+# for c in cities:
+#     print(c)
 
 # STRETCH GOAL!
 #
